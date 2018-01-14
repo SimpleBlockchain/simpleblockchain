@@ -149,3 +149,34 @@ for l in [l1, l2, l3]:
     l.show()
 ```
 
+The links have gotten wider, so let's stack them instead of lining
+them up horizontally. When I ran this, I got these values:
+
+    +---------------------------------------------------------------------+
+    | parent                           | addr                             |
+    | None                             | 967436fb856f5bd2684310f5fae41773 |
+    +---------------------------------------------------------------------+
+    |Amy pays Joe $5                                                      |
+    +---------------------------------------------------------------------+
+
+	+---------------------------------------------------------------------+
+    | parent                           | addr                             |
+    | 967436fb856f5bd2684310f5fae41773 | e9b48dab1b3aac47e943eedd67f87d13 |
+    +---------------------------------------------------------------------+
+    |Joe pays Amy $7                                                      |
+    +---------------------------------------------------------------------+
+
+	+---------------------------------------------------------------------+
+    | parent                           | addr                             |
+    | e9b48dab1b3aac47e943eedd67f87d13 | a46d8ae4f32badac6f9280328e0fb954 |
+    +---------------------------------------------------------------------+
+    |Joe pays Lou $1                                                      |
+    +---------------------------------------------------------------------+
+
+It still works exactly like a linked list--the "parent" of the second
+link still points to the address of the first link. But that first
+address is now some fundamental to what that first link *is*. When I
+rerun the above code, I no longer get random addresses, I get **the
+exact same** addresses. That's because it's computed from the link
+itself, which hasn't changed.
+
