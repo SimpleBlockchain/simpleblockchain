@@ -25,9 +25,14 @@ l1 = Link(None, 'Amy pays Joe $5')
 l2 = Link(l1.addr, 'Joe pays Amy $7')
 l3 = Link(l2.addr, 'Joe pays Lou $1')
 
+print('unhacked')
+for l in [l1, l2, l3]:
+    l.show()
+
 lhacker = Link(l1.addr, 'Amy -> Joe $1e6')
 l2.parent = lhacker.addr
 
+print('hacked')
 for l in [l1, lhacker, l2, l3]:
     l.show()
 
