@@ -36,35 +36,35 @@ usually physical. In our case they are merely logical.)
 And here is some Python code to simulate this simple linked list
 situation:
 
-    ```python
-    import random
-    
-    class Link():
-        def __init__(self, parent, data):
-            self.addr = random.randint(0, 256)
-            self.parent = parent
-            self.data = data
-    
-        def show(self):
-            print('+---------------+')
-            print('| parent | addr |')
-            if self.parent:
-                p = hex(self.parent)
-            else:
-                p = 'None'
-            print('| %s   | %s |' % (p, hex(self.addr)))
-            print('+---------------+')
-            print('|%-15s|' % (self.data))
-            print('+---------------+')
-            
-    l1 = Link(None, 'Amy pays Joe $5')
-    l1.show()
-    
-    l2 = Link(l1.addr, 'Joe pays Amy $7')
-    l2.show()
-    
-    l3 = Link(l2.addr, 'Joe pays Lou $1')
-    l3.show()
-    ```
+```python
+import random
+
+class Link():
+    def __init__(self, parent, data):
+        self.addr = random.randint(0, 256)
+        self.parent = parent
+        self.data = data
+
+    def show(self):
+        print('+---------------+')
+        print('| parent | addr |')
+        if self.parent:
+            p = hex(self.parent)
+        else:
+            p = 'None'
+        print('| %s   | %s |' % (p, hex(self.addr)))
+        print('+---------------+')
+        print('|%-15s|' % (self.data))
+        print('+---------------+')
+        
+l1 = Link(None, 'Amy pays Joe $5')
+l1.show()
+
+l2 = Link(l1.addr, 'Joe pays Amy $7')
+l2.show()
+
+l3 = Link(l2.addr, 'Joe pays Lou $1')
+l3.show()
+```
 
 (This code is in the file blockchain1.)
