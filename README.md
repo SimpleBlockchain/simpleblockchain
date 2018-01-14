@@ -70,5 +70,27 @@ for l in [l1, l2, l3]:
 This implementation is fine for storing data among people you
 trust. But if it's editable by the public, you have a security
 problem. Anyone can alter transaction data or insert/remove items at
-any time. Some code like this:
+any time by picking some link L, pointing to L and having the child of
+L point to you:
 
+
+               +---------------+ 
+               | parent | addr | 
+               |  0xa3  | 0xfa | 
+               +---------------+ 
+               |    HACKER     | 
+               +---------------+ 
+
+    +---------------+     +---------------+     +---------------+
+    | parent | addr |     | parent | addr |     | parent | addr |
+    |   NA   | 0xa3 |     |  0xfa  | 0x24 |     |  0x24  | 0x1b |
+    +---------------+     +---------------+     +---------------+  ...
+    |     DATA      |     |     DATA      +     +     DATA      +
+    +---------------+     +---------------+     +---------------+
+
+This can be accomplished with some code like this:
+
+```python
+lhacker = Link(l1.addr, 'Amy -> Joe $1e6')
+l2.parent = lhacker.addr
+```
