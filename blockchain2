@@ -31,10 +31,11 @@ print('unhacked')
 for l in [l1, l2, l3]:
     l.show()
 
-# lhacker = Link(l1.addr, 'Amy -> Joe $1e6')
-# l2.parent = lhacker.addr
+lhacker = Link(l1.addr(), 'Amy -> Joe $1e6')
+l2.parent = lhacker.addr()
+l3.parent = l2.addr()
 
-# print('hacked')
-# for l in [l1, lhacker, l2, l3]:
-#     l.show()
+print('hacked')
+for l in [l1, lhacker, l2, l3]:
+    l.show()
 

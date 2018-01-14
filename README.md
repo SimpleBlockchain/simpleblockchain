@@ -175,8 +175,34 @@ them up horizontally. When I ran this, I got these values:
 
 It still works exactly like a linked list--the "parent" of the second
 link still points to the address of the first link. But that first
-address is now some fundamental to what that first link *is*. When I
-rerun the above code, I no longer get random addresses, I get **the
-exact same** addresses. That's because it's computed from the link
-itself, which hasn't changed.
+address is now something fundamental to what that first link
+*is*. When I rerun the above code, I no longer get random addresses, I
+get **the exact same** addresses. That's because the address is
+computed from the link itself, which hasn't changed.
 
+How is this any more secure? Look above at the simple linked list
+hacking case. In order to insert a link, I had to change the "parent"
+attribute of a link. That was a simple edit in that case, but now if
+you change a link's attributes, **you also change the link's
+address**.
+
+In order to change anything about a link, I must also change the
+address. That means that the child of that link has to change *it's*
+parent address. Which means that child's address also changes, so the
+grandchild must also change. Any change anywhere in the blockchain
+must ripple all the way to the end.
+
+How can we do that in code? It's still pretty simple:
+
+```python
+lhacker = Link(l1.addr(), 'Amy -> Joe $1e6')
+l2.parent = lhacker.addr()
+l3.parent = l2.addr()
+```
+
+Only one additional link existed in this demo blockchain, but by the
+argument above you can see that we might have to alter hundreds,
+thousands, millions or billions of links in the chain. *All* of them,
+from the point of alteration to the very end.
+
+(All of the code from this section is in blockchain2.)
