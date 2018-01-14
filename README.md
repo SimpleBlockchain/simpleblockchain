@@ -58,13 +58,17 @@ class Link():
         print('+---------------+')
         
 l1 = Link(None, 'Amy pays Joe $5')
-l1.show()
-
 l2 = Link(l1.addr, 'Joe pays Amy $7')
-l2.show()
-
 l3 = Link(l2.addr, 'Joe pays Lou $1')
-l3.show()
+
+for l in [l1, l2, l3]:
+    l.show()
 ```
 
 (This code is in the file blockchain1.)
+
+This implementation is fine for storing data among people you
+trust. But if it's editable by the public, you have a security
+problem. Anyone can alter transaction data or insert/remove items at
+any time. Some code like this:
+
