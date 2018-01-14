@@ -94,6 +94,9 @@ This can be accomplished with some code like this:
 ```python
 lhacker = Link(l1.addr, 'Amy -> Joe $1e6')
 l2.parent = lhacker.addr
+
+for l in [l1, lhacker, l2, l3]:
+    l.show()
 ```
 
 (All of the above code is in the file blockchain1.)
@@ -125,9 +128,7 @@ class Link():
     def __init__(self, parent, data):
         self.parent = parent
         self.data = data
-
-    def addr(self):
-        return hashlib.md5(str(self.parent) + str(self.data)).hexdigest()
+        self.addr = hashlib.md5(str(self.parent) + str(self.data)).hexdigest()
 
     def show(self):
         print('+---------------------------------------------------------------------+')
@@ -136,14 +137,14 @@ class Link():
             p = self.parent
         else:
             p = 'None'
-        print('| %-32s | %s |' % (p, self.addr()))
+        print('| %-32s | %s |' % (p, self.addr))
         print('+---------------------------------------------------------------------+')
         print('|%-69s|' % (self.data))
         print('+---------------------------------------------------------------------+')
         
 l1 = Link(None, 'Amy pays Joe $5')
-l2 = Link(l1.addr(), 'Joe pays Amy $7')
-l3 = Link(l2.addr(), 'Joe pays Lou $1')
+l2 = Link(l1.addr, 'Joe pays Amy $7')
+l3 = Link(l2.addr, 'Joe pays Lou $1')
 
 for l in [l1, l2, l3]:
     l.show()
@@ -195,9 +196,12 @@ must ripple all the way to the end.
 How can we do that in code? It's still pretty simple:
 
 ```python
-lhacker = Link(l1.addr(), 'Amy -> Joe $1e6')
-l2.parent = lhacker.addr()
-l3.parent = l2.addr()
+lhacker = Link(l1.addr, 'Amy -> Joe $1e6')
+l2.parent = lhacker.addr
+l3.parent = l2.addr
+
+for l in [l1, lhacker, l2, l3]:
+    l.show()
 ```
 
 Only one additional link existed in this demo blockchain, but by the
@@ -206,3 +210,11 @@ thousands, millions or billions of links in the chain. *All* of them,
 from the point of alteration to the very end.
 
 (All of the code from this section is in blockchain2.)
+
+## Security Measure #2
+
+Having to alter all subsequent history is a pain, but it's not
+impossible. That's why we introduce security measure #2: proof of
+work.
+
+
