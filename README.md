@@ -214,7 +214,38 @@ from the point of alteration to the very end.
 ## Security Measure #2
 
 Having to alter all subsequent history is a pain, but it's not
-impossible. That's why we introduce security measure #2: proof of
-work.
+impossible. That's why we introduce security measure #2:
+proof-of-work. In normal Bitcoin operation, this is also called
+"mining", so lets call it that. Anyone who wants to generate an
+address for a real blockchain link needs to do this mining step for
+each link.
 
+The mining works a lot like the lottery. With the lottery, any
+particular person has a very, very low chance of winning, but the
+chance of *someone* winning is very high. That's why blocks are
+actually created, even though it's very unlikely a hacker will be able
+to do it enough times to corrupt the entire chain.
+
+The hacker has a problem. If s/he alters a single block in history,
+all subsequent blocks need their addresses recomputed. But in order to
+do that recomputation, the "mining" needs to happen. Succeeding at any
+given mining step is phenomenally unlikely, so succeeding at
+dozens/hundreds/thousands/millions is basically impossible. This is
+why Bitcoin says that once your transaction is some number of blocks
+deep in the chain, it's a done deal.
+
+How does the blockchain make mining difficult? By forcing the hashed
+address of the link fall below a given value. Remember that the hash
+function turns a pile of data into a number with a given number of
+digits. There's no way to look at the data and predict what that
+number is without actually computing it. And if you change the data
+slightly, you get a completely different number.
+
+Let's say the hash produces a 3 digit decimal number, 000 to 999. We
+could require that the miner gets a hash address of 000 to 099. So
+here's what the miner does when trying to add a link to the blockchain:
+
+    1. hash the link
+	2. if the value of the hash is 000 to 099, done
+	3. if not, alter the link slightly and go to 1
 

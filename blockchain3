@@ -1,0 +1,55 @@
+#!/usr/bin/env python2
+#-*-python-*-
+
+import hashlib
+
+class Link():
+    def __init__(self, parent, data, difficulty_level):
+        self.parent = parent
+        self.data = data
+
+        nonce = 0
+        addr = hashlib.md5(str(self.parent) + str(self.data) + str(nonce)).hexdigest()
+        while int(addr,16) > difficulty_level:
+            nonce += 1
+            addr = hashlib.md5(str(self.parent) + str(self.data) + str(nonce)).hexdigest()
+
+        self.nonce = nonce
+        self.addr = addr
+
+    def show(self):
+        print('+---------------------------------------------------------------------+')
+        print('| parent                           | addr                             |')
+        if self.parent:
+            p = self.parent
+        else:
+            p = 'None'
+        print('| %-32s | %s |' % (p, self.addr))
+        print('+---------------------------------------------------------------------+')
+        print('| nonce                                                               |')
+        print('| %-67d |' % (self.nonce))
+        print('+---------------------------------------------------------------------+')
+        print('|%-69s|' % (self.data))
+        print('+---------------------------------------------------------------------+')
+
+easy = 0xa0000000000000000000000000000000
+hard = 0x0a000000000000000000000000000000
+veryhard = 0x000000000000000a0000000000000000
+difficulty_level = easy
+
+l1 = Link(None, 'Amy pays Joe $5', difficulty_level)
+l2 = Link(l1.addr, 'Joe pays Amy $7', difficulty_level)
+l3 = Link(l2.addr, 'Joe pays Lou $1', difficulty_level)
+
+print('unhacked')
+for l in [l1, l2, l3]:
+    l.show()
+
+# lhacker = Link(l1.addr, 'Amy -> Joe $1e6')
+# l2.parent = lhacker.addr
+# l3.parent = l2.addr
+
+# print('hacked')
+# for l in [l1, lhacker, l2, l3]:
+#     l.show()
+
