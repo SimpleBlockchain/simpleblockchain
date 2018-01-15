@@ -230,8 +230,8 @@ each link.
 The mining works a lot like the lottery. With the lottery, any
 particular person has a very, very low chance of winning, but the
 chance of *someone* winning is very high. That's why blocks are
-actually created, even though it's very unlikely a hacker will be able
-to do it enough times to corrupt the entire chain.
+actually created, even though it's very unlikely a particular hacker
+will be able to do it enough times to corrupt the entire chain.
 
 The hacker has a problem. If s/he alters a single block in history,
 all subsequent blocks need their addresses recomputed. But in order to
@@ -239,7 +239,8 @@ do that recomputation, the "mining" needs to happen. Succeeding at any
 given mining step is phenomenally unlikely, so succeeding at
 dozens/hundreds/thousands/millions is basically impossible. This is
 why Bitcoin says that once your transaction is some number of blocks
-deep in the chain, it's a done deal.
+deep in the chain, it's a done deal. Re-mining that number of blocks
+is beyond hacker's ability.
 
 How does the blockchain make mining difficult? By forcing the hashed
 address of the link fall below a given value. Remember that the hash
@@ -248,13 +249,14 @@ digits. There's no way to look at the data and predict what that
 number is without actually computing it. And if you change the data
 slightly, you get a completely different number.
 
-Let's say the hash produces a 3 digit decimal number, 000 to 999. We
-could require that the miner gets a hash address of 000 to 099. So
-here's what the miner does when trying to add a link to the blockchain:
+Let's say the hash produces a 3 digit decimal number, 000 to 999. To
+deliberately make mining difficult, we could require that the miner
+gets a hash address of 000 to 099. So here's what the miner does when
+trying to add a link to the blockchain:
 
     1. hash the link
-	2. if the value of the hash is 000 to 099, done
-	3. if not, alter the link slightly and go to 1
+	2. if the value of the hash is **not** 000 to 099, go to 1
+	3. success
 
 That's the pseudocode, here's the real code:
 
