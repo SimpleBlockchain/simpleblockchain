@@ -99,7 +99,7 @@ for l in [l1, lhacker, l2, l3]:
     l.show()
 ```
 
-(All of the above code is in the file blockchain1.)
+(All of the above code is in the file `blockchain1`.)
 
 ## Security Measure #1
 
@@ -209,7 +209,7 @@ argument above you can see that we might have to alter hundreds,
 thousands, millions or billions of links in the chain. *All* of them,
 from the point of alteration to the very end.
 
-(All of the code from this section is in blockchain2.)
+(All of the code from this section is in `blockchain2`.)
 
 ## Security Measure #2
 
@@ -248,4 +248,62 @@ here's what the miner does when trying to add a link to the blockchain:
     1. hash the link
 	2. if the value of the hash is 000 to 099, done
 	3. if not, alter the link slightly and go to 1
+
+That's the pseudocode, here's the real code:
+
+```python
+import hashlib
+
+class Link():
+    def __init__(self, parent, data, difficulty_level):
+        self.parent = parent
+        self.data = data
+
+        nonce = 0
+        addr = hashlib.md5(str(self.parent) + str(self.data) + str(nonce)).hexdigest()
+        while int(addr,16) > difficulty_level:
+            nonce += 1
+            addr = hashlib.md5(str(self.parent) + str(self.data) + str(nonce)).hexdigest()
+
+        self.nonce = nonce
+        self.addr = addr
+
+    def show(self):
+        print('+---------------------------------------------------------------------+')
+        print('| parent                           | addr                             |')
+        if self.parent:
+            p = self.parent
+        else:
+            p = 'None'
+        print('| %-32s | %s |' % (p, self.addr))
+        print('+---------------------------------------------------------------------+')
+        print('| nonce                                                               |')
+        print('| %-67d |' % (self.nonce))
+        print('+---------------------------------------------------------------------+')
+        print('|%-69s|' % (self.data))
+        print('+---------------------------------------------------------------------+')
+
+easy = 0xa0000000000000000000000000000000
+hard = 0x0a000000000000000000000000000000
+veryhard = 0x000000000000000a0000000000000000
+difficulty_level = easy
+
+l1 = Link(None, 'Amy pays Joe $5', difficulty_level)
+l2 = Link(l1.addr, 'Joe pays Amy $7', difficulty_level)
+l3 = Link(l2.addr, 'Joe pays Lou $1', difficulty_level)
+
+for l in [l1, l2, l3]:
+    l.show()
+```
+
+The "difficulty level" is exactly analogous to the "000 to 099" range
+we specified in our example above. The "nonce" is how to "alter the
+link slightly" to get a different hash value. We just keep altering
+and hashing, altering and hashing until we happen to get a value below
+the difficulty level. The lower that level is, the harder it is to
+succeed.
+
+This code is in file `blockchain3`. Try running it with different
+values for the difficulty level. Watch your CPU usage at the same
+time. Now you know why it's called "proof of work".
 
