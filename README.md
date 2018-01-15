@@ -31,8 +31,8 @@ a data payload in there. Also, instead of arrows, let's use addresses:
     |     DATA      |     |     DATA      +     +     DATA      +
     +---------------+     +---------------+     +---------------+
 
-Note that the "parent" of each node (except the first, which has no
-parent) is the address value of the parent node.
+Note that the "parent" value of each node (except the first, which has
+no parent) is the address value of the parent node.
 
 The addresses are written in hexadecimal to be reminiscent of
 addresses in RAM. In an instantiated linked list in a real running
@@ -181,16 +181,16 @@ them up horizontally. When I ran this, I got these values:
     |Joe pays Lou $1                                                      |
     +---------------------------------------------------------------------+
 
-It still works exactly like a linked list--the "parent" of the second
-link still points to the address of the first link. But that first
-address is now something fundamental to what that first link
-*is*. When I rerun the above code, I no longer get random addresses, I
-get **the exact same** addresses. That's because the address is
-computed from the link itself, which hasn't changed.
+It still works exactly like a linked list--the "parent" value of the
+second link still points to the address value of the first link. But
+that first address is now something fundamental to what that first
+link *is*. When I rerun the above code, I no longer get random
+addresses, I get **the exact same** addresses. That's because the
+address is computed from the link itself, which hasn't changed.
 
 How is this any more secure? Look above at the simple linked list
 hacking case. In order to insert a link, I had to change the "parent"
-attribute of a link. That was a simple edit in that case, but now if
+attribute of a link. That was a simple edit in that case. But now if
 you change a link's attributes, **you also change the link's
 address**.
 
@@ -229,7 +229,7 @@ each link.
 
 The mining works a lot like the lottery. With the lottery, any
 particular person has a very, very low chance of winning, but the
-chance of *someone* winning is very high. That's why blocks are
+chance of *someone* winning is relatively high. That's why blocks are
 actually created, even though it's very unlikely a particular hacker
 will be able to do it enough times to corrupt the entire chain.
 
@@ -240,7 +240,7 @@ given mining step is phenomenally unlikely, so succeeding at
 dozens/hundreds/thousands/millions is basically impossible. This is
 why Bitcoin says that once your transaction is some number of blocks
 deep in the chain, it's a done deal. Re-mining that number of blocks
-is beyond hacker's ability.
+is beyond any hacker's ability.
 
 How does the blockchain make mining difficult? By forcing the hashed
 address of the link fall below a given value. Remember that the hash
@@ -249,10 +249,11 @@ digits. There's no way to look at the data and predict what that
 number is without actually computing it. And if you change the data
 slightly, you get a completely different number.
 
-Let's say the hash produces a 3 digit decimal number, 000 to 999. To
-deliberately make mining difficult, we could require that the miner
-gets a hash address of 000 to 099. So here's what the miner does when
-trying to add a link to the blockchain:
+Let's say that instead of that huge hex string, the hash function
+just produces a 3 digit decimal number, 000 to 999. To deliberately make
+mining difficult, we could require that the miner gets a hash address
+of 000 to **0**99. So here's what the miner does when trying to add a
+link to the blockchain:
 
     1. hash the link
 	2. if the value of the hash is not 000 to 099
@@ -314,9 +315,19 @@ and hashing, altering and hashing until we happen to get a value below
 the difficulty level. The lower that level is, the harder it is to
 succeed.
 
+How hard is it? The hash I'm using here has 32 hex digits, so the max
+value is 16^32 = 2^128. The "easy" difficulty level is well over half
+of that, so the chances are 62.5% I'll get it on any given try. The
+"hard" difficulty level is much smaller--around a 4% chance on any
+given try. The "very hard" difficulty level will succeed around
+5.4e-17% of the time.
+
 This code is in file `blockchain3`. Try running it with different
 values for the difficulty level. Watch your CPU usage at the same
-time. Now you know why it's called "proof of work".
+time. Now you know why it's called "proof of work". You can also see
+how many attempts were made to rehash the address by looking at the
+nonce value of the output. A high value here tells you it had to try a
+lot of times before the mining succeeded.
 
 It's hard to demo the hacker portion of this. For bitcoin, you have
 millions of people running the mining code. The difficulty level is
