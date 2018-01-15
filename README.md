@@ -257,7 +257,7 @@ trying to add a link to the blockchain:
     1. hash the link
 	2. if the value of the hash is not 000 to 099
     3.   alter the link slightly so we get a different hash
-    4.   go to 1
+    4.   hash the altered link and go to 2
 	5. success
 
 That's the pseudocode, here's the real code:
