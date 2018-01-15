@@ -307,3 +307,29 @@ This code is in file `blockchain3`. Try running it with different
 values for the difficulty level. Watch your CPU usage at the same
 time. Now you know why it's called "proof of work".
 
+It's hard to demo the hacker portion of this. For bitcoin, you have
+millions of people running the mining code. The difficulty level is
+set such that in that huge group of people, there's one success once
+every 10 minutes or so. The difficulty level is set lower and lower
+over time to keep this rate approximate constant.
+
+But for the demo, there's only one miner. That means the difficulty
+level has to be very easy or we'll never see a success. But that makes
+things too easy for the "hacker" when that portion of the code
+runs. To simulate this, let's change the difficulty level between the
+"real" and "hacked" sections of code.
+
+```python
+difficulty_level = veryhard
+lhacker = Link(l1.addr, 'Amy -> Joe $1e6', difficulty_level)
+l2.parent = lhacker.addr
+l3.parent = l2.addr
+
+for l in [l1, lhacker, l2, l3]:
+    l.show()
+```
+
+On my machine, the hacker code basically just hangs. It can't
+recompute this link in the chain in a reasonable time even once, let
+alone twice or more. The blockchain is effectively safe.
+
