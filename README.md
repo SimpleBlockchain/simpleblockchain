@@ -109,7 +109,7 @@ All of the above code is in the file `blockchain1`.
 ## Security Measure #1
 
 We're going to take two security measures that will work together to
-ensure no one can edit the block chain. The first security measure is
+ensure no one can edit the blockchain. The first security measure is
 changing how the addresses work.
 
 Right now, the address is basically a random number, which represents
@@ -121,10 +121,12 @@ a hash of the link itself.
 (If you don't know what a hash is, it's basically a one-way
 function. You hand the hash function a bunch of data and it hands you
 back a unique fingerprint. There's no way to recover the data from the
-fingerprint. Also, minor tweaks to the data result in huge leaps in
-the fingerprint.)
+fingerprint. Also, minor tweaks to the data result in big changes in
+the fingerprint, so you can't "fish around" by subtly modifying the
+data until you get close to the right hash.)
 
-It's easy to alter our existing linked list code to work like this:
+It's easy to alter our existing linked list code to use addresses that
+are hashes of the fundamental properties of the link itself:
 
 ```python
 import hashlib
@@ -192,8 +194,8 @@ attribute of a link. That was a simple edit in that case, but now if
 you change a link's attributes, **you also change the link's
 address**.
 
-In order to change anything about a link, I must also change the
-address. That means that the child of that link has to change *it's*
+When someone changes anything about a link, that forces the address to
+change. That means that the child of that link has to change *it's*
 parent address. Which means that child's address also changes, so the
 grandchild must also change. Any change anywhere in the blockchain
 must ripple all the way to the end.
@@ -214,7 +216,7 @@ argument above you can see that we might have to alter hundreds,
 thousands, millions or billions of links in the chain. *All* of them,
 from the point of alteration to the very end.
 
-(All of the code from this section is in `blockchain2`.)
+All of the code from this section is in `blockchain2`.
 
 ## Security Measure #2
 
