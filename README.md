@@ -7,9 +7,10 @@ makes them possible is the concept of a blockchain. The blockchain
 seems magical, but really it's just a data structure with a few
 special features. Let's look at how it works.
 
-The first basic concept is just a linked list where each child points
-to the parent it came from. (Note that a parent might have more than
-one child, but a child can have no more than one parent.)
+The first basic concept to understand is a linked list where each
+child points to the parent it came from. (Note that a parent might
+have more than one child, but a child can have no more than one
+parent.)
 
     +--------+     +----------+     +----------+
     | link 0 | <---+-* link 1 | <---+-* link 2 | <---...
@@ -19,7 +20,7 @@ A blockchain is a stronger form of a linked list. In a regular linked
 list, you can't tell if someone moved the pointers. With a blockchain,
 you can.
 
-Let's build up to that feature. First, let's start by changing our
+Let's build up to that feature. We'll start by changing our
 representation of a linked list to be a little more concrete. We want
 a data payload in there. Also, instead of arrows, let's use addresses:
 
@@ -30,11 +31,15 @@ a data payload in there. Also, instead of arrows, let's use addresses:
     |     DATA      |     |     DATA      +     +     DATA      +
     +---------------+     +---------------+     +---------------+
 
+Note that the "parent" of each node (except the first, which has no
+parent) is the address value of the parent node.
+
 The addresses are written in hexadecimal to be reminiscent of
-addresses in RAM. In an instantiated linked list, the addresses are
-usually physical--they point to a particular memory location. In our
-case they are merely logical. Look at a link and read the parent
-address. Then find the node that has that address.
+addresses in RAM. In an instantiated linked list in a real running
+program, the addresses are usually physical--they point to a
+particular memory location. In our case they are merely logical. Look
+at a link and read the parent address. Then find the node that has
+that address.
 
 Here is some Python code to simulate this simple linked list
 situation, with some financial transactions as the data payload:
@@ -99,7 +104,7 @@ for l in [l1, lhacker, l2, l3]:
     l.show()
 ```
 
-(All of the above code is in the file `blockchain1`.)
+All of the above code is in the file `blockchain1`.
 
 ## Security Measure #1
 
