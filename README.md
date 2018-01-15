@@ -255,8 +255,10 @@ gets a hash address of 000 to 099. So here's what the miner does when
 trying to add a link to the blockchain:
 
     1. hash the link
-	2. if the value of the hash is **not** 000 to 099, go to 1
-	3. success
+	2. if the value of the hash is not 000 to 099
+    3.   alter the link slightly so we get a different hash
+    4.   go to 1
+	5. success
 
 That's the pseudocode, here's the real code:
 
