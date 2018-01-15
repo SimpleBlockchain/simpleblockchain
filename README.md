@@ -317,10 +317,12 @@ succeed.
 
 How hard is it? The hash I'm using here has 32 hex digits, so the max
 value is 16^32 = 2^128. The "easy" difficulty level is well over half
-of that, so the chances are 62.5% I'll get it on any given try. The
+of that, with a chance of 62.5% that I'll get it on any given try. The
 "hard" difficulty level is much smaller--around a 4% chance on any
 given try. The "very hard" difficulty level will succeed around
-5.4e-17% of the time.
+5.4e-17% of the time. That's pretty unlikely. Put another way, at the
+"very hard" difficulty level, I'd have to rehash **9.2e+17 times**
+just to get a 50% of succeeding.
 
 This code is in file `blockchain3`. Try running it with different
 values for the difficulty level. Watch your CPU usage at the same
