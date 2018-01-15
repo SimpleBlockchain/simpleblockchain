@@ -333,3 +333,27 @@ On my machine, the hacker code basically just hangs. It can't
 recompute this link in the chain in a reasonable time even once, let
 alone twice or more. The blockchain is effectively safe.
 
+## Omitted Stuff
+
+There's a lot more to Bitcoin than I've presented here, which I won't
+even mention.
+
+There are also omitted issues that are more directly
+blockchain-related. For instance, how does anyone know you actually
+did the work to compute those hashes? Because they can check by
+running the hash themselves. (Checking if the answer is right takes
+only a single try, so that's fast.)
+
+Or what happens if by chance someone does succeed in altering a chain
+near the end, where there are fewer blocks to have to recompute? A
+large hacker group could coordinate on this. Yes, they could, but keep
+in mind that they have have a sigificant fraction of the world's
+computing resources in order to keep up. There are also mechanisms
+built into Bitcoin to help choose between alternate blockchains.
+
+And what about the hash, am I cheating by using Python's `hashlib` for
+that? Not really. A hash can be anything with the properties loosely
+described of "one way" and "non-linear". I used `hashlib.md5` because
+I used a similar library in my original code in another language that
+had fewer choices.
+
